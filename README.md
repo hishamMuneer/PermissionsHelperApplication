@@ -1,7 +1,22 @@
 # PermissionsHelperApplication
 A helper library for Marshmallow permissions.
 
+## How to import it?
+
+Add the following lines in your module build.gradle:
+
+    repositories {
+        maven {
+            url "https://jitpack.io"
+        }
+    }
+
+    dependencies {
+        compile 'com.github.tajchert:nammu:1.1.1'
+    }
+
 ## How to use: 
+
 
     public class MainActivity extends AppCompatActivity {
 
