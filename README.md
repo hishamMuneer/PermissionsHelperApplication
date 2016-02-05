@@ -7,12 +7,12 @@ Add the following lines in your module build.gradle:
 
     repositories {
         maven {
-            url "https://jitpack.io"
+            url "https://dl.bintray.com/hisham/maven"
         }
     }
 
     dependencies {
-        compile 'com.github.tajchert:nammu:1.1.1'
+        compile 'com.hisham.permissionshelper:permissions-helper:0.3.1'
     }
 
 ## How to use: 
