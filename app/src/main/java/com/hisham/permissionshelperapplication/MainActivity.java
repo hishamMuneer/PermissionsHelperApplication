@@ -1,5 +1,6 @@
 package com.hisham.permissionshelperapplication;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,6 +10,10 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.hisham.permissionshelper.IPermission;
+import com.hisham.permissionshelper.IPermissionCallback;
+import com.hisham.permissionshelper.PermissionImplementation;
+
 
 /**
  * How this library was created: Used the following link: http://brianattwell.com/distributing-android-libs-via-jcenter/
@@ -16,6 +21,8 @@ import android.view.MenuItem;
  * IMPORTANT : Both of the above commands can be executed from Android Studio's Terminal
  */
 public class MainActivity extends AppCompatActivity {
+
+    IPermission iPermission = PermissionImplementation.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,32 +34,65 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(final View view) {
+                Snackbar.make(view, "A simple snackbar :)", Snackbar.LENGTH_INDEFINITE).show();
+
+            }
+        });
+    }
+
+    public void reqPermission(final View view){
+        String permission = Manifest.permission.ACCESS_FINE_LOCATION;
+        iPermission.requestPermission(MainActivity.this, permission, 1, new IPermissionCallback() {
+            @Override
+            public void permissionGranted(int requestCode) {
+                Snackbar.make(view, "Location Permission Granted", Snackbar.LENGTH_INDEFINITE).show();
+            }
+
+            @Override
+            public void permissionDenied(int requestCode, boolean isDeniedPreviously) {
+                if (isDeniedPreviously) {
+                    Snackbar.make(view, "You need to enable location permission for this thing to work.", Snackbar.LENGTH_INDEFINITE).setAction("Open Settings", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            iPermission.openPermissionSettings(MainActivity.this);
+                        }
+                    }).show();
+                } else {
+                    Snackbar.make(view, "Location Permission Denied", Snackbar.LENGTH_INDEFINITE).show();
+
+                }
+            }
+        });
+    }
+
+    public void reqPermissions(final View view){
+        String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA,Manifest.permission.RECORD_AUDIO };
+        iPermission.requestPermission(MainActivity.this, permissions, 2, new IPermissionCallback() {
+            @Override
+            public void permissionGranted(int requestCode) {
+                Snackbar.make(view, "Permissions Granted", Snackbar.LENGTH_INDEFINITE).show();
+            }
+
+            @Override
+            public void permissionDenied(int requestCode, boolean isDeniedPreviously) {
+                if (isDeniedPreviously) {
+                    Snackbar.make(view, "You need to enable these permissions for this thing to work.", Snackbar.LENGTH_INDEFINITE).setAction("Open Settings", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            iPermission.openPermissionSettings(MainActivity.this);
+                        }
+                    }).show();
+                } else {
+                    Snackbar.make(view, "Permissions Denied", Snackbar.LENGTH_INDEFINITE).show();
+
+                }
             }
         });
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        iPermission.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
