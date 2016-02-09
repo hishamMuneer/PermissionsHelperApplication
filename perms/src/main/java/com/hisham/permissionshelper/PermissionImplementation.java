@@ -1,15 +1,21 @@
 package com.hisham.permissionshelper;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import java.util.AbstractCollection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,8 +39,51 @@ public class PermissionImplementation implements IPermission  {
      */
     private Map<String, Boolean> permissionsNotGrantedMap = null;
 
+    List<String> allPermissions = new ArrayList<>();
+    // private constructor
     private PermissionImplementation (){
-        // private constructor
+        // SMS
+        allPermissions.add(Manifest.permission.SEND_SMS);
+        allPermissions.add(Manifest.permission.READ_SMS);
+        allPermissions.add(Manifest.permission.RECEIVE_SMS);
+        allPermissions.add(Manifest.permission.RECEIVE_WAP_PUSH);
+        allPermissions.add(Manifest.permission.RECEIVE_MMS);
+        // Location
+        allPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        allPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        // Calendar
+        allPermissions.add(Manifest.permission.WRITE_CALENDAR);
+        allPermissions.add(Manifest.permission.READ_CALENDAR);
+        // Camera
+        allPermissions.add(Manifest.permission.CAMERA);
+        // Contacts
+        allPermissions.add(Manifest.permission.WRITE_CONTACTS);
+        allPermissions.add(Manifest.permission.READ_CONTACTS);
+        allPermissions.add(Manifest.permission.GET_ACCOUNTS);
+        // Microphone
+        allPermissions.add(Manifest.permission.RECORD_AUDIO);
+        // Phone
+        allPermissions.add(Manifest.permission.CALL_PHONE);
+        allPermissions.add(Manifest.permission.READ_PHONE_STATE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            allPermissions.add(Manifest.permission.READ_CALL_LOG);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            allPermissions.add(Manifest.permission.WRITE_CALL_LOG);
+        }
+        allPermissions.add(Manifest.permission.ADD_VOICEMAIL);
+        allPermissions.add(Manifest.permission.USE_SIP);
+        allPermissions.add(Manifest.permission.PROCESS_OUTGOING_CALLS);
+        // Body Sensors
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            allPermissions.add(Manifest.permission.BODY_SENSORS);
+        }
+        // Storage
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            allPermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        allPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
     }
 
     /**
@@ -81,7 +130,7 @@ public class PermissionImplementation implements IPermission  {
     @Override
     public void openPermissionSettings(final Activity context) {
         if (context == null) {
-            Log.i(TAG, "Context is null, Call like this: openPermissionSettings(MainActivity.this);");
+            Log.i(TAG, "Context is null, Call like this: iPermission.openPermissionSettings(MainActivity.this);");
             return;
         }
         final Intent i = new Intent();
@@ -113,5 +162,27 @@ public class PermissionImplementation implements IPermission  {
         } else {
             Log.i(TAG, "RequestCode doesn't match");
         }
+    }
+
+    @Override
+    public List<String> getGrantedPermissionList(final Context context){
+        List<String> grantedPermissions = new ArrayList<>();
+        for(String permission : allPermissions) {
+            if(ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED) {
+                grantedPermissions.add(permission);
+            }
+        }
+        return grantedPermissions;
+    }
+
+    @Override
+    public List<String> getDeniedPermissionList(final Context context){
+        List<String> deniedPermissions = new ArrayList<>();
+        for(String permission : allPermissions) {
+            if(ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_DENIED) {
+                deniedPermissions.add(permission);
+            }
+        }
+        return deniedPermissions;
     }
 }

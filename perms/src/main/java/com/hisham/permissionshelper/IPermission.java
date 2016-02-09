@@ -1,6 +1,9 @@
 package com.hisham.permissionshelper;
 
 import android.app.Activity;
+import android.content.Context;
+
+import java.util.List;
 
 /**
  * Created by Hisham on 2/4/2016.
@@ -45,4 +48,16 @@ public interface IPermission {
      * @param grantResults
      */
     void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults);
+
+    /**
+     * @param context
+     * @return - a list of all granted permissions
+     */
+    List<String> getGrantedPermissionList(Context context);
+
+    /**
+     * @param context
+     * @return - a list of all denied permissions
+     */
+    List<String> getDeniedPermissionList(Context context);
 }
