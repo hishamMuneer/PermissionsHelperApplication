@@ -3,6 +3,7 @@ A helper library for Marshmallow permissions.
 
 ![Single Permission Dialog](https://cloud.githubusercontent.com/assets/3941245/12883479/5386a678-ce7e-11e5-81d1-2d415ca0a4ca.png)
 ![Multiple Permissions Dialog](https://cloud.githubusercontent.com/assets/3941245/12883480/538af818-ce7e-11e5-8e3a-ac43953824d7.png)
+![Open Settings](https://cloud.githubusercontent.com/assets/3941245/12908825/8891768e-cf20-11e5-9411-791fa8ccb005.png)
 
 ## How to import it?
 
