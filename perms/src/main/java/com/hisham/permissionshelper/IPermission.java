@@ -50,22 +50,16 @@ public interface IPermission {
     void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults);
 
     /**
-     * @param context - context example: getApplicationContext()
-     * @return - a list of all granted permissions
-     */
-    List<String> getGrantedPermissionList(Context context);
-
-    /**
-     * @param context - context example: getApplicationContext()
-     * @return - a list of all denied permissions
-     */
-    List<String> getDeniedPermissionList(Context context);
-
-    /**
      * Get all possible runtime permissions
      * @return a list of all runtime permissions (whether denied, granted or not requested yet)
      */
     List<String> getAllPermissionsList();
+
+    /**
+     * @param context - context example: getApplicationContext()
+     * @return - a list of all granted permissions
+     */
+    List<String> getGrantedPermissionList(Context context);
 
     /**
      * Check if a permission is granted
@@ -75,11 +69,4 @@ public interface IPermission {
      */
     boolean isPermissionGranted(Context context, String permission);
 
-    /**
-     * Check if a permission is denied
-     * @param context - context example: getApplicationContext()
-     * @param permission - permission ex: Manifest.permission.ACCESS_FINE_LOCATION
-     * @return true if permission is already denied
-     */
-    boolean isPermissionDenied(Context context, String permission);
 }

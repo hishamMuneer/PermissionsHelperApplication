@@ -1,18 +1,23 @@
 package com.hisham.permissionshelperapplication;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.hisham.permissionshelper.IPermission;
 import com.hisham.permissionshelper.IPermissionCallback;
 import com.hisham.permissionshelper.PermissionImplementation;
+
+import java.util.List;
 
 
 /**
@@ -22,7 +27,8 @@ import com.hisham.permissionshelper.PermissionImplementation;
  */
 public class MainActivity extends AppCompatActivity {
 
-    IPermission iPermission = PermissionImplementation.getInstance();
+    private IPermission iPermission = PermissionImplementation.getInstance();
+    private View coordinatorLayoutView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        coordinatorLayoutView = findViewById(R.id.coordinatorLayout);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void reqPermissions(final View view){
-        String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA,Manifest.permission.RECORD_AUDIO };
+        String[] permissions = new String[]{Manifest.permission.READ_SMS, Manifest.permission.CAMERA,Manifest.permission.RECORD_AUDIO };
         iPermission.requestPermission(MainActivity.this, permissions, 2, new IPermissionCallback() {
             @Override
             public void permissionGranted(int requestCode) {
@@ -91,8 +98,59 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        List<String> permissions;
+        //noinspection SimplifiableIfStatement
+        switch (id) {
+            case R.id.action_all:
+                permissions = iPermission.getAllPermissionsList();
+                break;
+            case R.id.action_granted_list:
+                permissions = iPermission.getGrantedPermissionList(getApplicationContext());
+                break;
+            case R.id.action_settings:
+                iPermission.openPermissionSettings(MainActivity.this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        if(permissions != null) {
+            String message = "";
+            // if there is no permission granted
+            if (permissions.size() == 0) {
+                message = "No permissions granted";
+            } else {
+                for (String permission : permissions) {
+                    message = message + permission + System.getProperty("line.separator");
+                }
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Permissions: ");
+            builder.setMessage(message);
+            builder.create().show();
+        }
+        return true;
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         iPermission.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
+
 }

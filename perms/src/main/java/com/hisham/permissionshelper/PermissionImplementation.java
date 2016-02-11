@@ -164,6 +164,11 @@ public class PermissionImplementation implements IPermission  {
     }
 
     @Override
+    public List<String> getAllPermissionsList(){
+        return allPermissions;
+    }
+
+    @Override
     public List<String> getGrantedPermissionList(final Context context){
         List<String> grantedPermissions = new ArrayList<>();
         for(String permission : allPermissions) {
@@ -175,33 +180,9 @@ public class PermissionImplementation implements IPermission  {
     }
 
     @Override
-    public List<String> getDeniedPermissionList(final Context context){
-        List<String> deniedPermissions = new ArrayList<>();
-        for(String permission : allPermissions) {
-            if(ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_DENIED) {
-                deniedPermissions.add(permission);
-            }
-        }
-        return deniedPermissions;
-    }
-
-    @Override
-    public List<String> getAllPermissionsList(){
-        return allPermissions;
-    }
-
-    @Override
     public boolean isPermissionGranted(Context context, String permission){
         if(ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED)
             return true;
         return false;
     }
-
-    @Override
-    public boolean isPermissionDenied(Context context, String permission){
-        if(ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_DENIED)
-            return true;
-        return false;
-    }
-
 }
