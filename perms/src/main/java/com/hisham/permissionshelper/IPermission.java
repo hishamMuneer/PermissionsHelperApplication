@@ -60,4 +60,26 @@ public interface IPermission {
      * @return - a list of all denied permissions
      */
     List<String> getDeniedPermissionList(Context context);
+
+    /**
+     * Get all possible runtime permissions
+     * @return a list of all runtime permissions (whether denied, granted or not requested yet)
+     */
+    List<String> getAllPermissionsList();
+
+    /**
+     * Check if a permission is granted
+     * @param context
+     * @param permission
+     * @return true if permission is already granted
+     */
+    boolean isPermissionGranted(Context context, String permission);
+
+    /**
+     * Check if a permission is denied
+     * @param context
+     * @param permission
+     * @return true if permission is already denied
+     */
+    boolean isPermissionDenied(Context context, String permission);
 }

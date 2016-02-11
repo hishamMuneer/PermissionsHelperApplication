@@ -12,7 +12,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -185,4 +184,24 @@ public class PermissionImplementation implements IPermission  {
         }
         return deniedPermissions;
     }
+
+    @Override
+    public List<String> getAllPermissionsList(){
+        return allPermissions;
+    }
+
+    @Override
+    public boolean isPermissionGranted(Context context, String permission){
+        if(ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED)
+            return true;
+        return false;
+    }
+
+    @Override
+    public boolean isPermissionDenied(Context context, String permission){
+        if(ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_DENIED)
+            return true;
+        return false;
+    }
+
 }
