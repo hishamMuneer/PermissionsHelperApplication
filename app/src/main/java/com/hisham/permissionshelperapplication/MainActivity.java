@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void permissionDenied(int requestCode, boolean isDeniedPreviously) {
-                if (isDeniedPreviously) {
+            public void permissionDenied(int requestCode, boolean willShowCheckBoxNextTime) {
+                if (willShowCheckBoxNextTime) {
                     Snackbar.make(view, "You need to enable location permission for this thing to work.", Snackbar.LENGTH_INDEFINITE).setAction("Open Settings", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -82,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void permissionDenied(int requestCode, boolean isDeniedPreviously) {
-                if (isDeniedPreviously) {
+            public void permissionDenied(int requestCode, boolean willShowCheckBoxNextTime) {
+                if (willShowCheckBoxNextTime) {
                     Snackbar.make(view, "You need to enable these permissions for this thing to work.", Snackbar.LENGTH_INDEFINITE).setAction("Open Settings", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
                     }).show();
                 } else {
                     Snackbar.make(view, "Permissions Denied", Snackbar.LENGTH_INDEFINITE).show();
-
                 }
             }
         });

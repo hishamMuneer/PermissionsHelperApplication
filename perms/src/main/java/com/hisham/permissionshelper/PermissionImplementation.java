@@ -36,9 +36,11 @@ public class PermissionImplementation implements IPermission  {
      * A map that stores the permissions which are not granted by the user.
      * it stores data this way : Map<PERMISSION_NAME, SHOULD_SHOW_RATIONALE>
      */
-    private Map<String, Boolean> permissionsNotGrantedMap = null;
+    private List<String> permissionsNotGrantedMap = null;
 
     List<String> allPermissions = new ArrayList<>();
+    private Activity activity;
+
     // private constructor
     private PermissionImplementation (){
         // SMS
@@ -97,10 +99,11 @@ public class PermissionImplementation implements IPermission  {
     @Override
     public void requestPermission(final Activity activity, String[] permissions, int requestCode, IPermissionCallback callback) {
 
+        this.activity = activity;
         this.callback = callback;
         this.requestCode = requestCode;
 
-        permissionsNotGrantedMap = new HashMap();
+        permissionsNotGrantedMap = new ArrayList<>();
         // lower sdk don't need runtime permission, grant instantly
         if (Build.VERSION.SDK_INT < 23) {
             callback.permissionGranted(requestCode);
@@ -109,13 +112,13 @@ public class PermissionImplementation implements IPermission  {
             for (String permission : permissions) {
                 if (ActivityCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
                     isAllPermissionsGranted = false;
-                    permissionsNotGrantedMap.put(permission, ActivityCompat.shouldShowRequestPermissionRationale(activity, permission));
+                    permissionsNotGrantedMap.add(permission);
                 }
             }
             if (isAllPermissionsGranted) {
                 callback.permissionGranted(requestCode);
             } else {
-                ActivityCompat.requestPermissions(activity, permissionsNotGrantedMap.keySet().toArray(new String[0]), requestCode);
+                ActivityCompat.requestPermissions(activity, permissionsNotGrantedMap.toArray(new String[0]), requestCode);
             }
         }
 
@@ -153,7 +156,7 @@ public class PermissionImplementation implements IPermission  {
                 callback.permissionGranted(requestCode);
             } else {
                 if (permissions.length == 1 && permissionsNotGrantedMap != null && permissionsNotGrantedMap.size() > 0) {
-                    callback.permissionDenied(requestCode, permissionsNotGrantedMap.get(permissions[0]).booleanValue());
+                    callback.permissionDenied(requestCode, ActivityCompat.shouldShowRequestPermissionRationale(activity, permissionsNotGrantedMap.get(0)));
                 } else {
                     callback.permissionDenied(requestCode, false);
                 }
