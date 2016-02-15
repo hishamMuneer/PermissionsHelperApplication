@@ -39,8 +39,8 @@ Add the following lines in your app's module build.gradle:
                 }
 
                 @Override
-                public void permissionDenied(int requestCode, boolean isDeniedPreviously) {
-                    if (isDeniedPreviously) {
+                public void permissionDenied(int requestCode, boolean willShowCheckBoxNextTime) {
+                if (willShowCheckBoxNextTime) {
                         Snackbar.make(view, "You need to enable location permission for this thing to work.", Snackbar.LENGTH_INDEFINITE).setAction("Open Settings", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
