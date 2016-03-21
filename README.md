@@ -61,3 +61,8 @@ Add the following lines in your app's module build.gradle:
         }
     }
 
+## Runtime Permissions Flow Chart: 
+
+This is the flow that this library simplifies. 
+
+![Runtime Permission Flow Chart](https://cloud.githubusercontent.com/assets/3941245/13917231/6957d38c-ef85-11e5-89e7-39cb34913438.png)
