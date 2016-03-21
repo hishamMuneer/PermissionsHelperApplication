@@ -15,7 +15,7 @@ Add the following lines in your app's module build.gradle:
         }
     }
     dependencies {
-        compile 'com.hisham.perms:perms:1.0.0'
+        compile 'com.hisham.perms:perms:1.0.3'
     }
 
 [![Download](https://api.bintray.com/packages/hisham/maven/permissions-helper/images/download.svg) ](https://bintray.com/hisham/maven/permissions-helper/_latestVersion)
