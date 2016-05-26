@@ -1,5 +1,7 @@
 # PermissionsHelperApplication
 A helper library for Marshmallow permissions.
+[![](https://jitpack.io/v/hishamMuneer/PermissionsHelperApplication.svg)](https://jitpack.io/#hishamMuneer/PermissionsHelperApplication)
+
 
 ![Single Permission Dialog](https://cloud.githubusercontent.com/assets/3941245/12883479/5386a678-ce7e-11e5-81d1-2d415ca0a4ca.png)
 ![Multiple Permissions Dialog](https://cloud.githubusercontent.com/assets/3941245/12883480/538af818-ce7e-11e5-8e3a-ac43953824d7.png)
