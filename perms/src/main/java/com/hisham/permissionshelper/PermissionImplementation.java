@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,7 +99,11 @@ public class PermissionImplementation implements IPermission  {
 
     @Override
     public void requestPermission(final Activity activity, String[] permissions, int requestCode, IPermissionCallback callback) {
+        requestPermission(activity, Arrays.asList(permissions), requestCode, callback);
+    }
 
+    @Override
+    public void requestPermission(Activity activity, List<String> permissions, int requestCode, IPermissionCallback callback) {
         this.activity = activity;
         this.callback = callback;
         this.requestCode = requestCode;
@@ -121,7 +126,6 @@ public class PermissionImplementation implements IPermission  {
                 ActivityCompat.requestPermissions(activity, permissionsNotGrantedMap.toArray(new String[0]), requestCode);
             }
         }
-
     }
 
     @Override

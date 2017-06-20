@@ -19,6 +19,14 @@ public interface IPermission {
     void requestPermission(Activity activity, String[] permissions, int requestCode, IPermissionCallback callback);
 
     /**
+     * Requesting runtime permissions, You can pass an array of permissions here
+     * @param activity - activity
+     * @param permissions - permissions array ex: new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA}
+     * @param requestCode - a unique integer code (unique within an activity), it will be returned in the callback
+     * @param callback - callback whether granted or denied - IPermissionCallback
+     */
+    void requestPermission(Activity activity, List<String> permissions, int requestCode, IPermissionCallback callback);
+    /**
      * Requesting runtime permission
      * @param activity - activity
      * @param permission - permission ex: Manifest.permission.ACCESS_FINE_LOCATION
