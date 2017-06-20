@@ -15,7 +15,7 @@ Add the following lines in your app's module build.gradle:
         maven { url 'https://jitpack.io' }
     }
     dependencies {
-        compile 'com.github.hishamMuneer:PermissionsHelperApplication:v1.0.4'
+        compile 'com.github.hishamMuneer:PermissionsHelperApplication:v1.0.5'
     }
 
 
