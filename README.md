@@ -12,15 +12,12 @@ A helper library for Marshmallow permissions.
 Add the following lines in your app's module build.gradle:
 
     repositories {
-        maven {
-            url "https://dl.bintray.com/hisham/maven"
-        }
+        maven { url 'https://jitpack.io' }
     }
     dependencies {
-        compile 'com.hisham.perms:perms:1.0.3'
+        compile 'com.github.hishamMuneer:PermissionsHelperApplication:v1.0.4'
     }
 
-[![Download](https://api.bintray.com/packages/hisham/maven/permissions-helper/images/download.svg) ](https://bintray.com/hisham/maven/permissions-helper/_latestVersion)
 
 ## How to use: 
 
@@ -41,8 +38,8 @@ Add the following lines in your app's module build.gradle:
                 }
 
                 @Override
-                public void permissionDenied(int requestCode, boolean willShowCheckBoxNextTime) {
-                if (willShowCheckBoxNextTime) {
+                public void permissionDenied(int requestCode, boolean isDeniedPreviously) {
+                if (isDeniedPreviously) {
                         Snackbar.make(view, "You need to enable location permission for this thing to work.", Snackbar.LENGTH_INDEFINITE).setAction("Open Settings", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
